@@ -19,8 +19,6 @@ Traveler.prototype.hunt = function () {
 Traveler.prototype.eat = function () {
     //if there was no food to eat (traveler's food count already at or below 0)
     if (this.food <= 0) {
-        //food count remains empty
-        // this.food = 0;
         // make us sick
         this.isHealthy = false;
         return this.name + " is now hungry (sick)!";
@@ -28,7 +26,6 @@ Traveler.prototype.eat = function () {
         //try to eat food
         this.food -= 1;
     }
-    
 }
 
 // A Doctor is a Traveler with one additional method:
@@ -64,15 +61,16 @@ Hunter.prototype.hunt = function () {
 // Consumes 2 units of the hunter's food. If the hunter doesn't have 2 food when they are instructed to eat, 
 // they eat as much as they can (0 or 1 unit), but the hunter is no longer healthy. (A normal traveler eats only 1 unit of food.)
 Hunter.prototype.eat = function () {
-    //try to eat food
-    this.food -= 2;
-    //if there was no food to eat(<=0) or not enough to eat(1)
+    //if there was no food to eat(0) or not enough to eat(1)
     if (this.food < 2) {
         //hunter eats whatever is left of their food
         this.food = 0;
         // make us sick
         this.isHealthy = false;
         return this.name + " is now hungry (sick)!";
+    } else {
+        //try to eat food
+        this.food -= 2;
     }
 }
 
@@ -114,19 +112,10 @@ Wagon.prototype.join = function (traveler) {
 Wagon.prototype.shouldQuarantine = function () {
     for (let i = 0; i < this.passengerList.length; i++) {
         if (this.passengerList[i].isHealthy !== true) {
-            return true;
-        }        
-    }   
-    return false;
-}
-
-Wagon.prototype.shouldQuarantine = function () {
-    for (let i = 0; i < this.passengerList.length; i++) {
-        if (this.passengerList[i].isHealthy !== true) {
             //A passenger was sick so return that the wagon is quarantined (true)
             return true;
-        }        
-    }   
+        }
+    }
     //No passengers were sick so return that the wagon is NOT quarantined (false)
     return false;
 
